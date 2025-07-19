@@ -67,12 +67,20 @@ end
 
 function M.setup(opts)
 	opts = opts or {}
+	
+	local default_opts = {
+		keybinding = "<localleader>cc"
+	}
+	
+	opts = vim.tbl_extend("force", default_opts, opts)
 
 	vim.api.nvim_create_user_command("ClaudeCode", function()
 		M.toggle()
 	end, {})
 
-	vim.keymap.set("n", "<localleader>cc", M.toggle, { desc = "Toggle Claude Code" })
+	if opts.keybinding then
+		vim.keymap.set("n", opts.keybinding, M.toggle, { desc = "Toggle Claude Code" })
+	end
 end
 
 return M
